@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import axios from 'axios';
@@ -10,8 +9,9 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('https://localhost:8000/buddy', { prompt })
-      .then((res) => {
+    axios.post('http://localhost:8000/buddy', { prompt })
+    .then((res) => {
+        console.log(res);
         setResponse(res.data)
       }).catch((err) => {
         console.log(err);
@@ -29,7 +29,7 @@ function App() {
       </label>
       <input type="submit" value="Submit" />
       <p>
-        {response}
+        the response is {response}
       </p>
     </form>
   );
