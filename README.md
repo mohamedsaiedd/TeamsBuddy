@@ -1,7 +1,7 @@
 # TeamsBuddy
 
 
-## server run command
+## node server run command
 
 
 ```
