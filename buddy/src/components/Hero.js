@@ -27,9 +27,7 @@ const JSONFormat = [
 
 export default function Hero() {
     const YearsOfExp = localStorage.getItem("Years")
-    const prompt = `genrate a 10 MCQ questions for front end developer with experince of ${YearsOfExp}  
-    the response should be in JSON fomat and same like this ${JSONFormat}
-    `;
+    const prompt = `Ask another multiple choice question in the following form  with four options for front end developer with experince of ${YearsOfExp} : question?; A) answer1; B) answer2; C) answer3 (correct); D) answer4`;
     const [response, setResponse] = useState();
     const [questions, setQuestions] = useState([]);
 
@@ -40,7 +38,31 @@ export default function Hero() {
         axios.post('http://localhost:8000/buddy', { prompt })
             .then((res) => {
                 setResponse(res.data)
-                console.log(res);
+                let data = res.data.split(";");
+                let question = data[0].trim();;
+                let answers = data.slice(1)            
+                let correct_answer = 0 
+                let iteration = 0 
+                console.log(answers)
+                for (let i = 0; i < answers.length ; i++) {
+                      // code block to be executed
+                      if (answers[i].includes("correct") || answers[i].includes("Correct")){
+                        correct_answer = iteration + 1
+                        break ;
+                      }
+                      iteration++;
+                    }
+
+                let context = {
+                  question: question,
+                  answer1: answers[0].trim().slice(2),
+                  answer2: answers[1].trim().slice(2),
+                  answer3: answers[2].trim().slice(2),
+                  answer4: answers[3].trim().slice(2),
+                  correct_answer: correct_answer,
+                };
+
+                  console.log(context);
             }).catch((err) => {
                 console.log(err);
             })
